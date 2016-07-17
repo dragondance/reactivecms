@@ -1,12 +1,13 @@
-package  controllers
+package controllers
 
+import javax.inject._
 import play.api.mvc.{Action, Controller}
 import models.Product
 
-object Products extends Controller{
+class Products @Inject() extends Controller{
   def list = Action { implicit request =>
     val products = Product.findAll
 
-    ok(views.html.products.list(products))
+    Ok(views.html.products.list(products))
   }
 }
