@@ -17,26 +17,33 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
 
   }
 
-  "HomeController" should {
+  "ProductController" should {
 
     "render the index page" in {
-      val home = route(app, FakeRequest(GET, "/")).get
+      val home = route(app, FakeRequest(GET, "/products")).get
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Your new application is ready.")
+      contentAsString(home) must include ("Catálogo de productos")
     }
 
   }
 
-  "CountController" should {
+  "ApplicationController" should {
 
-    "return an increasing count" in {
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "0"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "1"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "2"
+    "render the index page" in {
+      val nextUrl = redirectLocation(result) match {
+        case Some(s: String) => s
+        case _ => ""
+      }
+      nextUrl must contain("/products")
+
+      val newResult = route(FakeRequest(GET, nextUrl)).get
+
+      status(newResult) must equalTo(OK)
+      contentType(newResult) must beSome.which(_ == "text/html")
+      contentAsString(newResult) must contain("Catálogo de productos")
     }
 
   }
-
 }
