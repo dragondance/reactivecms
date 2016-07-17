@@ -4,10 +4,10 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String)(content: Html)(implicit lang: Lang)
+@(title: String)(content: Html)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         @* Here's where we render the page title `String`. *@
         <title>@title</title>
@@ -27,6 +27,7 @@
                 </div>
             </div>
             <div class="container">
+                <h1>@title</h1>
             @content
             </div>
         </div>
