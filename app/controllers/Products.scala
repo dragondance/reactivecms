@@ -10,4 +10,10 @@ class Products @Inject() extends Controller{
 
     Ok(views.html.products.list(products))
   }
+
+  def show(ean: Long) = Action { implicit request =>
+    Product.findByEan(ean).map{ product =>
+      Ok(views.html.products.details(product))
+    }.getOrElse(NotFound)
+  }
 }
