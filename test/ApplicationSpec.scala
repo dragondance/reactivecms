@@ -28,22 +28,4 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
     }
 
   }
-
-  "ApplicationController" should {
-
-    "render the index page" in {
-      val nextUrl = redirectLocation(result) match {
-        case Some(s: String) => s
-        case _ => ""
-      }
-      nextUrl must contain("/products")
-
-      val newResult = route(FakeRequest(GET, nextUrl)).get
-
-      status(newResult) must equalTo(OK)
-      contentType(newResult) must beSome.which(_ == "text/html")
-      contentAsString(newResult) must contain("Catálogo de productos")
-    }
-
-  }
 }
