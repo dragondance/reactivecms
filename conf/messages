@@ -1,1 +1,6 @@
 title = Product catalog
+ean = EAN
+name = Name
+description = Description
+
+products.details = Product: {0}
