@@ -3,6 +3,8 @@ package controllers
 import javax.inject._
 import play.api.mvc.{Action, Controller}
 import models.Product
+import play.adi.data._
+import play.api.data.Forms._
 
 class Products @Inject() extends Controller{
   def list = Action { implicit request =>
