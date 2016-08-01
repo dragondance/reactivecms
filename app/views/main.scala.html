@@ -4,7 +4,10 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String)(content: Html)
+@import play.api.Play.current
+@import play.api.i18n.Messages.Implicits._
+
+@(title: String)(content: Html)(implicit flash: Flash, lang: Lang)
 
 <!DOCTYPE html>
 <html lang="es">
@@ -21,14 +24,32 @@
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
-                        <a class="brand" href="@routes.Application.index()">
+                        <a class="brand" href="@routes.Application.index()">@Messages("application.name")
                         </a>
                     </div>
+                    <ul class="nav">
+                        <li class="divider-vertical"></li>
+                        <li class="active">
+                            <a href="@routes.Products.list()">@Messages("products.list.navigation")</a>
+                        </li>
+                        <li class="active">
+                            <a href="@routes.Products.newProduct()"><i class="icon-plus icon-white"></i>@Messages("products.new.command")</a>
+                        </li>
+                        <li class="divider-vertical"></li>
+                    </ul>
                 </div>
             </div>
             <div class="container">
-                <h1>@title</h1>
-            @content
+                @if(flash.get("success").isDefined){
+                    <div class="alert alert-success">@flash.get("success")</div>
+                }
+
+                @if(flash.get("error").isDefined){
+                    <div class="alert alert-error">@flash.get("error")</div>
+                }
+
+                @content
+                @debug()
             </div>
         </div>
     </body>
