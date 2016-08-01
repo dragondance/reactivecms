@@ -7,6 +7,11 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.i18n.Messages
 
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
+import play.api.mvc.Flash
+
 class Products @Inject() extends Controller{
   def list = Action { implicit request =>
     val products = Product.findAll
@@ -27,4 +32,29 @@ class Products @Inject() extends Controller{
       "description" -> nonEmptyText
     )(Product.apply)(Product.unapply)
   )
+
+  def save = Action { implicit  request =>
+    val newProductForm = productForm.bindFromRequest()
+
+    newProductForm.fold(
+      hasErrors = { form =>
+        Redirect(routes.Products.newProduct()).flashing(Flash(form.data)+("error" -> Messages("validation.errors")))
+      },
+
+      success = { newProduct =>
+        Product.add(newProduct)
+        val message = Messages("products.new.success", newProduct.name)
+        Redirect(routes.Products.show(newProduct.ean)).flashing("success" -> message)
+      }
+    )
+  }
+
+  def newProduct = Action{implicit request =>
+    val form = if(request.flash.get("error").isDefined)
+      product.bind(request.flash.data)
+    else
+      productFom
+
+    Ok(views.html.products.editProduct(form))
+  }
 }
