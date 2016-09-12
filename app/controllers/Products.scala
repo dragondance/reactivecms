@@ -51,9 +51,9 @@ class Products @Inject() extends Controller{
 
   def newProduct = Action{implicit request =>
     val form = if(request.flash.get("error").isDefined)
-      product.bind(request.flash.data)
+      productForm.bind(request.flash.data)
     else
-      productFom
+      productForm
 
     Ok(views.html.products.editProduct(form))
   }

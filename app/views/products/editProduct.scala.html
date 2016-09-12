@@ -10,9 +10,9 @@
         <fieldset>
             <legend>@Messages("products.details", Messages("products.new"))</legend>
 
-            <input type="text" value='@productForm("ean")'/>
-            <input type="text" value='@productForm("name")'/>
-            <textarea>@productForm("description")</textarea>
+            @helper.inputText(productForm("ean"))
+            @helper.inputText(productForm("name"))
+            @helper.textarea(productForm("description"))
         </fieldset>
 
         <p><input type="submit" class="btn primary" value='@Messages("products.new.submit")'></p>
